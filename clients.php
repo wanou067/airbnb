@@ -1,5 +1,15 @@
 <?php
    include_once("./cacheclear.php");
+
+   function erreurform($error) {
+    echo("
+        <div style=\"border: 1px double red; color: red; width: 50%; margin: auto; text-align: center\">
+            <h1>Echec de l'insertion</h1>
+            <h2>".$error."</h2>
+        </div>
+        ");
+  }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -89,22 +99,67 @@ if($action == "afficher"){
 }
 
 else if($action == "Inserer") {
+
+$justinstert = $_GET['justinsert'];
+
+    if($justinstert == true){
+        
+        $nom = $_POST['nom'];
+        $prenom = $_POST['prenom'];
+        $tel = $_POST['tel'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $adresse = $_POST['adresse'];
+        $hote = $_POST['hote'];
+
+        if(is_null($nom) || is_null($prenom) || is_null($tel) || is_null($email) || is_null($password) || is_null($adresse)){
+            erreurform("Veuillez remplir tous les champs obligatoires");
+        }
+        else{
+
+            if(strlen($nom) > 40){
+                erreurform("Le nom est trop long !")
+            }
+            if(strlen($prenom) > 30){
+                erreurform("Le prenom est trop long !")
+            }
+            if(is_numeric($nom) > 40){
+                erreurform("Le numéro de téléphone fourni est incorrect")
+            }
+
+
+
+
+            include_once('credentials.php');
+            $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+            try {
+                $pdo = new PDO($dsn, $user, $pass, $options);
+            } catch (\PDOException $e) {
+                    throw new \PDOException($e->getMessage(), (int)$e->getCode());
+            }
+
+            $stmt = $pdo->query('INSERT INTO client ("nom", "prenom", "tel", "email", "password", "adresse", "hote") VALUES (:nom, :prenom, :tel, :email, :password, :adresse, :hote');
+
+        }
+            }
+
+
     ?>
-    <form class="forminsert" action="" method="post">
+    <form class="forminsert" action="clients.php?action=Inserer&justinsert=true" method="post">
     <h1>Insérer un client</h1>
 
     <label for="nom">Nom</label>
-    <input type="text" name="nom" id="nom"><br>
+    <input required type="text" name="nom" id="nom"><br>
     <label for="nom">Prénom</label>
-    <input type="text" name="prenom" id="prenom"><br>
+    <input required type="text" name="prenom" id="prenom"><br>
     <label for="tel">Téléphone</label>
-    <input type="tel" name="tel" id="tel"><br>
+    <input required type="tel" name="tel" id="tel"><br>
     <label for="email">Email</label>
-    <input type="email" name="email" id="email"><br>
+    <input required type="email" name="email" id="email"><br>
     <label for="password">Mot de passe</label>
-    <input type="password" name="password" id="password"><br>
+    <input required type="password" name="password" id="password"><br>
     <label for="adresse">Adresse</label>
-    <input type="text" name="adresse" id="adresse"><br>
+    <input required type="text" name="adresse" id="adresse"><br>
     <label for="hote">Hote ?</label>
     <input type="checkbox" name="hote" id="hote"><br>
         
