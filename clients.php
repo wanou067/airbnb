@@ -89,13 +89,35 @@
     <header>
 
 
-    <nav>
+        <nav>
             <ul>
                 <a href="index.html" id="logo"><img src="img/logo.png" alt=""></a>
                 <a href="clients.php?action=afficher">Clients</a>
                 <a href="clients.php?action=Inserer">Insérer</a>
                 <a href="index.html">Rien</a>
-                <a href="login.php">Login</a>
+                <?php
+                session_start();
+                if(isset($_SESSION['user_id'])) {
+                    $req = $pdo->prepare("SELECT prenom, nom FROM client WHERE id=:id");
+                    $req->bindValue(":id", $_SESSION['user_id']);
+                    if($req->execute()){
+                        $result = $req->fetch();
+                        if(isset($result["prenom"])){
+                            echo('<a id="logout" href="logout.php"><span style="line-height: 40px;">Bonjour '.$result["prenom"].'</span><br>
+                            <span style="color: red; text-decoration: underline">Se déconnecter</span></a>');
+                        }
+                        else{
+                            echo('<a id="login" href="login.php">Login</a>');
+                        }
+                        
+                    } else {
+                        echo('<a id="login" href="login.php">Login</a>');
+                    }
+                } else {
+                    echo('<a id="login" href="login.php">Login</a>');
+                }
+
+                ?>
             </ul>
         </nav>
 

@@ -52,3 +52,10 @@ header nav ul a {
     border-left: 1px solid black;
     line-height : 100px;
 }
+
+#logout{
+    max-width: 20%;
+    word-wrap: break-word;
+    font-size: 1.8rem;
+    line-height: 40px;
+}

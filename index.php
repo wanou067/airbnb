@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="header.css">
-    <link rel="stylesheet" href="login.css">
     <title>Airbnb</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,6 +14,7 @@
 </head>
 <body>
 <?php
+ini_set('display_errors', 1);
 include_once('credentials.php');
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 try {
@@ -62,19 +62,6 @@ try {
         </nav>
 
     </header>
-
-
-    <form action="connect.php" method="post">
-
-        <h1>Se connecter</h1>
-        <label for="email">Adresse email:</label>
-        <input size="32" type="email" name="email" id="email">
-        <label for="password">Mot de passe:</label>
-        <input size="32" type="password" name="password" id="password">
-        <input type="submit" value="Se connecter" id="submitbutton">
-
-
-    </form>
 
 
     
