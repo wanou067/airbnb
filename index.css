@@ -6,11 +6,13 @@ table, th, td {
 table {
     width: 70%;
     margin: auto;
+    margin-top: 2rem;
 }
 
 td {
-  width: 5vh;
+  width: 3rem;
   text-align: center;
+  font-family: Calibri, Arial, Helvetica, sans-serif;
 }
 
 /* ================================================= */
